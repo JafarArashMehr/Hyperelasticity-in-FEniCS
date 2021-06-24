@@ -1,0 +1,687 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>2. Fully Incompressible Model &mdash; Hyperelasticity 2021 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="Hyperelasticity 2021 documentation" href="../index.html"/>
+        <link rel="next" title="3. Nearly Incompressible Model" href="nearly.html"/>
+        <link rel="prev" title="1. Introduction" href="intro.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html">
+          
+
+          
+            
+            <img src="../_static/106.png" class="logo" />
+          
+          </a>
+
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <p class="caption"><span class="caption-text">Table of Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="what.html">What is this document about?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="resource.html">Useful Resources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="package.html">Required Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="intro.html">1. Introduction</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">2. Fully Incompressible Model</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#constitutive-equations">2.1 Constitutive Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#finite-element-implementation">2.2. Finite Element Implementation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="nearly.html">3. Nearly Incompressible Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="compressible.html">4. Compressible Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="axi.html">5. Axisymmetric Model</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">Hyperelasticity</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+    <li>2. Fully Incompressible Model</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/new/fully.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="fully-incompressible-model">
+<h1>2. Fully Incompressible Model<a class="headerlink" href="#fully-incompressible-model" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="constitutive-equations">
+<h2>2.1 Constitutive Equations<a class="headerlink" href="#constitutive-equations" title="Permalink to this headline">¶</a></h2>
+<p>For the incompressible Neo-Hookean material, the strain energy function is defined as:</p>
+<div class="math notranslate nohighlight" id="eq-18">
+<span id="equation-eq-18"></span><span class="eqno">(18)<a class="headerlink" href="#eq-18" title="Permalink to this equation">¶</a></span>\[W=c_1(I_1-3)\]</div>
+<p>For the uniaxial tension, the deformation gradient tensor is defined as:</p>
+<div class="math notranslate nohighlight" id="eq-19">
+<span id="equation-eq-19"></span><span class="eqno">(19)<a class="headerlink" href="#eq-19" title="Permalink to this equation">¶</a></span>\[\begin{split} F=\begin{bmatrix} \lambda_1 &amp; 0 &amp; 0\\0 &amp; \lambda_2 &amp; 0\\0 &amp; 0 &amp; \lambda_3\end{bmatrix}\end{split}\]</div>
+<p>Considering the <a class="reference internal" href="#eq-18"><span class="std std-ref">equation.18</span></a> and with respect to <a class="reference internal" href="intro.html#eq-16"><span class="std std-ref">equation.16</span></a> and <a class="reference internal" href="intro.html#eq-17"><span class="std std-ref">equation.17</span></a> then we can calculate the <span class="math notranslate nohighlight">\(\beta_1\)</span>, <span class="math notranslate nohighlight">\(\beta_2\)</span> and <span class="math notranslate nohighlight">\(\beta_3\)</span>:</p>
+<div class="math notranslate nohighlight" id="eq-20">
+<span id="equation-eq-20"></span><span class="eqno">(20)<a class="headerlink" href="#eq-20" title="Permalink to this equation">¶</a></span>\[ \begin{align}\begin{aligned} \beta_1 = 0\\ \beta_2 = 2J^{-1}c_1\\ \beta_3 = 0\end{aligned}\end{align} \]</div>
+<p>In the above equation <span class="math notranslate nohighlight">\(c_1= \frac {\mu}{2}\)</span> where and <span class="math notranslate nohighlight">\(\mu\)</span> is the shear modulus. In addition for a fully compressible material, <span class="math notranslate nohighlight">\(J= 1\)</span> so <span class="math notranslate nohighlight">\(\beta_2=\mu\)</span> . According to the <a class="reference internal" href="#eq-19"><span class="std std-ref">equation.19</span></a> and <a class="reference internal" href="intro.html#eq-12"><span class="std std-ref">equation.12</span></a> we can calculate the <span class="math notranslate nohighlight">\(\textbf{b}\)</span> as following:</p>
+<div class="math notranslate nohighlight" id="eq-21">
+<span id="equation-eq-21"></span><span class="eqno">(21)<a class="headerlink" href="#eq-21" title="Permalink to this equation">¶</a></span>\[\begin{split} \textbf{b}=\begin{bmatrix} {\lambda_1}^2 &amp; 0 &amp; 0\\0 &amp; {\lambda_2}^2  &amp; 0\\0 &amp; 0 &amp; {\lambda_3}^2 \end{bmatrix}\end{split}\]</div>
+<p>Then we can write the stress as:</p>
+<div class="math notranslate nohighlight" id="eq-22">
+<span id="equation-eq-22"></span><span class="eqno">(22)<a class="headerlink" href="#eq-22" title="Permalink to this equation">¶</a></span>\[\begin{split} \begin{bmatrix} \sigma_{11} &amp; 0 &amp; 0\\0 &amp; 0&amp; 0\\0 &amp; 0 &amp; 0\end{bmatrix} = \beta_{2}\begin{bmatrix} \lambda_{1}^2 &amp; 0 &amp; 0\\0 &amp; \lambda_{2}^2&amp; 0\\0 &amp; 0 &amp; \lambda_{3}^2\end{bmatrix}\end{split}\]</div>
+<p>It results in 2 equations:</p>
+<div class="math notranslate nohighlight" id="eq-23">
+<span id="equation-eq-23"></span><span class="eqno">(23)<a class="headerlink" href="#eq-23" title="Permalink to this equation">¶</a></span>\[ \begin{align}\begin{aligned}\sigma_{11}=\beta_2 \lambda_{1}^2\\0=\beta_2 \lambda_{2}^2\end{aligned}\end{align} \]</div>
+<p>By subtracting the above equations:</p>
+<div class="math notranslate nohighlight" id="eq-24">
+<span id="equation-eq-24"></span><span class="eqno">(24)<a class="headerlink" href="#eq-24" title="Permalink to this equation">¶</a></span>\[ \sigma_{11}=(\lambda_{1}^2-\lambda_{2}^2)\beta_{2}\]</div>
+<p>It should be noted that in the uniaxial stretch, the stretches in different directions are:</p>
+<div class="math notranslate nohighlight" id="eq-25">
+<span id="equation-eq-25"></span><span class="eqno">(25)<a class="headerlink" href="#eq-25" title="Permalink to this equation">¶</a></span>\[\begin{split} \lambda_1=\lambda\\
+ \lambda_2=\lambda_3= \frac{1}{\sqrt{\lambda}}\end{split}\]</div>
+<p>Then the final form of the stress is presented in this form:</p>
+<div class="math notranslate nohighlight" id="eq-26">
+<span id="equation-eq-26"></span><span class="eqno">(26)<a class="headerlink" href="#eq-26" title="Permalink to this equation">¶</a></span>\[ \sigma_{11}=\mu(\lambda^2-\frac{1}{\lambda})\]</div>
+<p>For the Biaxial tension, the deformation gradients tensor is defined as:</p>
+<div class="math notranslate nohighlight" id="eq-27">
+<span id="equation-eq-27"></span><span class="eqno">(27)<a class="headerlink" href="#eq-27" title="Permalink to this equation">¶</a></span>\[\begin{split} F=\begin{bmatrix} \lambda &amp; 0 &amp; 0\\0 &amp; \lambda &amp; 0\\0 &amp; 0 &amp; \frac {1}{\lambda^2}\end{bmatrix}\end{split}\]</div>
+<p>As <span class="math notranslate nohighlight">\(\beta_1\)</span> and <span class="math notranslate nohighlight">\(\beta_3\)</span> are equal to zero, after calculating the <span class="math notranslate nohighlight">\(\textbf{b}\)</span> tensor we can write the <a class="reference internal" href="intro.html#eq-16"><span class="std std-ref">Equation.16</span></a> in this form:</p>
+<div class="math notranslate nohighlight" id="eq-28">
+<span id="equation-eq-28"></span><span class="eqno">(28)<a class="headerlink" href="#eq-28" title="Permalink to this equation">¶</a></span>\[\begin{split} \begin{bmatrix} \sigma_{11} &amp; 0 &amp; 0\\0 &amp; \sigma_{22} &amp; 0\\0 &amp; 0 &amp; 0\end{bmatrix}= \beta_1 \begin{bmatrix} \lambda^2 &amp; 0 &amp; 0\\0 &amp; \lambda^2 &amp; 0\\0 &amp; 0 &amp; \frac{1}{\lambda^4}\end{bmatrix}\end{split}\]</div>
+<p>It results in 2 equations:</p>
+<div class="math notranslate nohighlight" id="eq-29">
+<span id="equation-eq-29"></span><span class="eqno">(29)<a class="headerlink" href="#eq-29" title="Permalink to this equation">¶</a></span>\[\begin{split} \sigma_{11}= \beta_2 \lambda^2\\
+ 0= \beta_2 \frac{1}{\lambda^4}\end{split}\]</div>
+<p>By subtracting the above equations:</p>
+<div class="math notranslate nohighlight" id="eq-30">
+<span id="equation-eq-30"></span><span class="eqno">(30)<a class="headerlink" href="#eq-30" title="Permalink to this equation">¶</a></span>\[ \sigma_{11}= \mu (\lambda^2-\frac{1}{\lambda^4})\]</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p><strong>Alternative Way</strong></p>
+<p>The stress is defined as follows:</p>
+<div class="math notranslate nohighlight" id="eq-31">
+<span id="equation-eq-31"></span><span class="eqno">(31)<a class="headerlink" href="#eq-31" title="Permalink to this equation">¶</a></span>\[ \sigma= \alpha_1 \lambda_i^{2} + \alpha_{-1} \lambda_i^{-2}-p\]</div>
+<p>Where:</p>
+<div class="math notranslate nohighlight" id="eq-32">
+<span id="equation-eq-32"></span><span class="eqno">(32)<a class="headerlink" href="#eq-32" title="Permalink to this equation">¶</a></span>\[\begin{split} \alpha_1= 2 \frac{\partial W}{\partial I_1}\\
+ \alpha_{-1}= -2 \frac{\partial W}{\partial I_2}\end{split}\]</div>
+<p>The parameter <span class="math notranslate nohighlight">\(p\)</span> is defined as hydrostatic pressure:</p>
+<div class="math notranslate nohighlight" id="eq-33">
+<span id="equation-eq-33"></span><span class="eqno">(33)<a class="headerlink" href="#eq-33" title="Permalink to this equation">¶</a></span>\[ p= \alpha_1 \frac{1}{\lambda_1^{2} \lambda_2^{2}}+\alpha_{-1}\lambda_1^{2} \lambda_2^{2}\]</div>
+<p>We can find <span class="math notranslate nohighlight">\(\alpha_1\)</span> and <span class="math notranslate nohighlight">\(\alpha_{-1}\)</span> : <span class="math notranslate nohighlight">\(\alpha_1=2c_1=\mu\)</span> and <span class="math notranslate nohighlight">\(\alpha_{-1}=0\)</span></p>
+<p>By combining the <a class="reference internal" href="#eq-31"><span class="std std-ref">equation.31</span></a> and <a class="reference internal" href="#eq-33"><span class="std std-ref">equation.33</span></a>:</p>
+<div class="math notranslate nohighlight" id="eq-34">
+<span id="equation-eq-34"></span><span class="eqno">(34)<a class="headerlink" href="#eq-34" title="Permalink to this equation">¶</a></span>\[ \sigma_{ii}= \mu \lambda_{i}^2-\mu (\frac {1}{\lambda_i^{2}\lambda_i^{2}})\]</div>
+<p class="last">Which is same as <a class="reference internal" href="#eq-30"><span class="std std-ref">equation.30</span></a>.</p>
+</div>
+</div>
+<div class="section" id="finite-element-implementation">
+<h2>2.2. Finite Element Implementation<a class="headerlink" href="#finite-element-implementation" title="Permalink to this headline">¶</a></h2>
+<p>For the fully incompressible Neo-Hookean material the Jacobian of the deformation gradient
+tensor is unity (e.g. <span class="math notranslate nohighlight">\(J=1\)</span>). The strain energy function is defined as follows:</p>
+<div class="math notranslate nohighlight" id="eq-35">
+<span id="equation-eq-35"></span><span class="eqno">(35)<a class="headerlink" href="#eq-35" title="Permalink to this equation">¶</a></span>\[ W= c_1(I_1-3)+p(J-1)\]</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">In the above equation, the parameter <span class="math notranslate nohighlight">\(Lagrange Multiplier\)</span> enforcing the fully incompressibility condition</p>
+</div>
+<p>The stress is defined:</p>
+<div class="math notranslate nohighlight" id="eq-36">
+<span id="equation-eq-36"></span><span class="eqno">(36)<a class="headerlink" href="#eq-36" title="Permalink to this equation">¶</a></span>\[ \sigma=\alpha_1 b + \alpha_{-1} b^{-1} - p I\]</div>
+<p>Then the stress term is reduced to:</p>
+<div class="math notranslate nohighlight" id="eq-37">
+<span id="equation-eq-37"></span><span class="eqno">(37)<a class="headerlink" href="#eq-37" title="Permalink to this equation">¶</a></span>\[ \sigma=\mu b - p I\]</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">When we solve for a fully incompressible material, we should define our problem on a mixed space including a scalar space (to solve for the <span class="math notranslate nohighlight">\(p\)</span>) and a vector space (to solve for the displacement)</p>
+</div>
+<p>The analytical solution for the uniaxial stretch for different shear modulus could be obtained using the code:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span class="n">lamda</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.15</span><span class="p">,</span><span class="mf">0.2</span><span class="p">,</span><span class="mf">0.25</span><span class="p">,</span><span class="mf">0.3</span><span class="p">,</span><span class="mf">0.35</span><span class="p">,</span><span class="mf">0.4</span><span class="p">,</span><span class="mf">0.45</span><span class="p">,</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">0.55</span><span class="p">,</span><span class="mf">0.6</span><span class="p">,</span><span class="mf">0.65</span><span class="p">,</span><span class="mf">0.7</span><span class="p">,</span><span class="mf">0.75</span><span class="p">,</span><span class="mf">0.8</span><span class="p">,</span><span class="mf">0.85</span><span class="p">,</span><span class="mf">0.9</span><span class="p">,</span><span class="mf">0.95</span><span class="p">,</span><span class="mf">1.</span><span class="p">,</span><span class="mf">1.25</span><span class="p">,</span><span class="mf">1.5</span><span class="p">,</span><span class="mf">1.75</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mf">2.25</span><span class="p">,</span><span class="mf">2.5</span><span class="p">,</span><span class="mf">2.75</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mf">3.25</span><span class="p">,</span><span class="mf">3.5</span><span class="p">,</span><span class="mf">3.75</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mf">4.25</span><span class="p">,</span><span class="mf">4.5</span><span class="p">,</span><span class="mf">4.47</span><span class="p">,</span><span class="mi">5</span><span class="p">]</span>
+
+<span class="c1"># Shear modulus = 0.5 MPa</span>
+<span class="n">sigma_05</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="c1"># Shear modulus = 1.5 MPa</span>
+<span class="n">sigma_15</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="c1"># Shear modulus = 3.5 MPa</span>
+<span class="n">sigma_35</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">lamda</span><span class="p">)):</span>
+
+        <span class="n">a</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="nb">pow</span><span class="p">(</span><span class="n">lamda</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="mf">1.</span> <span class="o">/</span><span class="p">(</span><span class="n">lamda</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="mf">1.5</span> <span class="o">*</span> <span class="p">(</span><span class="nb">pow</span><span class="p">(</span><span class="n">lamda</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="mf">1.</span> <span class="o">/</span><span class="p">(</span><span class="n">lamda</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="mf">3.5</span> <span class="o">*</span> <span class="p">(</span><span class="nb">pow</span><span class="p">(</span><span class="n">lamda</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="mf">1.</span> <span class="o">/</span><span class="p">(</span><span class="n">lamda</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+
+        <span class="n">sigma_05</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+        <span class="n">sigma_15</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+        <span class="n">sigma_35</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="k">print</span> <span class="p">(</span><span class="n">sigma_05</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">r&#39;$\mathrm{Stretch}$&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">r&#39;$\mathrm{\sigma_{xx}(MPa)}$&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">lamda</span><span class="p">,</span><span class="n">sigma_05</span><span class="p">,</span>  <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;maroon&#39;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">r&#39;$(\mu=0.5)$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">lamda</span><span class="p">,</span><span class="n">sigma_15</span><span class="p">,</span>  <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">r&#39;$(\mu=1.5)$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">lamda</span><span class="p">,</span><span class="n">sigma_35</span><span class="p">,</span>  <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;teal&#39;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">r&#39;$(\mu=3.5)$&#39;</span><span class="p">)</span>
+<span class="n">lg</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">ncol</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+<span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+<span class="n">axes</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">5</span><span class="p">])</span>
+<span class="n">axes</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="o">-</span><span class="mi">15</span><span class="p">,</span> <span class="mi">30</span><span class="p">])</span>
+
+<span class="n">axes</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">([</span><span class="o">-</span><span class="mi">15</span><span class="p">,</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">15</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">25</span><span class="p">,</span><span class="mi">30</span><span class="p">,</span><span class="mi">35</span><span class="p">])</span>
+<span class="n">axes</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">])</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;major&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The implmentation in FEniCS is presented in this code:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">dolfin</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="c1"># Defining Stretches</span>
+<span class="n">stretch</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.15</span><span class="p">,</span><span class="mf">0.2</span><span class="p">,</span><span class="mf">0.25</span><span class="p">,</span><span class="mf">0.3</span><span class="p">,</span><span class="mf">0.35</span><span class="p">,</span><span class="mf">0.4</span><span class="p">,</span><span class="mf">0.45</span><span class="p">,</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">0.55</span><span class="p">,</span><span class="mf">0.6</span><span class="p">,</span><span class="mf">0.65</span><span class="p">,</span><span class="mf">0.7</span><span class="p">,</span><span class="mf">0.75</span><span class="p">,</span><span class="mf">0.8</span><span class="p">,</span><span class="mf">0.85</span><span class="p">,</span><span class="mf">0.9</span><span class="p">,</span><span class="mf">0.95</span><span class="p">,</span><span class="mf">1.</span><span class="p">,</span><span class="mf">1.25</span><span class="p">,</span><span class="mf">1.5</span><span class="p">,</span><span class="mf">1.75</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mf">2.25</span><span class="p">,</span><span class="mf">2.5</span><span class="p">,</span><span class="mf">2.75</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mf">3.25</span><span class="p">,</span><span class="mf">3.5</span><span class="p">,</span><span class="mf">3.75</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mf">4.25</span><span class="p">,</span><span class="mf">4.5</span><span class="p">,</span><span class="mf">4.47</span><span class="p">,</span><span class="mi">5</span><span class="p">]</span>
+<span class="n">BC</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">stretch</span><span class="p">)):</span>
+              <span class="n">N</span> <span class="o">=</span> <span class="n">stretch</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">-</span> <span class="mf">1.0</span>
+              <span class="n">BC</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
+
+<span class="n">tol</span> <span class="o">=</span> <span class="mf">1E-14</span>
+<span class="c1"># Define boundaries</span>
+<span class="k">def</span> <span class="nf">FRONT</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">on_boundary</span><span class="p">):</span>
+              <span class="k">return</span> <span class="n">on_boundary</span> <span class="ow">and</span> <span class="nb">abs</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">tol</span>
+
+
+<span class="c1"># Defining the mesh which is a single hexahedron element</span>
+<span class="n">mesh</span> <span class="o">=</span> <span class="n">UnitCubeMesh</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">CellType</span><span class="o">.</span><span class="n">Type</span><span class="o">.</span><span class="n">hexahedron</span><span class="p">)</span>
+
+<span class="c1">############################################</span>
+<span class="c1">#element for pressure field</span>
+<span class="n">Element1</span> <span class="o">=</span> <span class="n">FiniteElement</span><span class="p">(</span><span class="s2">&quot;CG&quot;</span><span class="p">,</span> <span class="n">mesh</span><span class="o">.</span><span class="n">ufl_cell</span><span class="p">(),</span> <span class="mi">1</span><span class="p">)</span>
+<span class="c1">#element for displacement field</span>
+<span class="n">Element2</span> <span class="o">=</span> <span class="n">VectorElement</span><span class="p">(</span><span class="s2">&quot;CG&quot;</span><span class="p">,</span> <span class="n">mesh</span><span class="o">.</span><span class="n">ufl_cell</span><span class="p">(),</span> <span class="mi">2</span><span class="p">)</span>
+
+<span class="c1"># Defining the mixed function space</span>
+<span class="n">W_elem</span> <span class="o">=</span> <span class="n">MixedElement</span><span class="p">([</span><span class="n">Element1</span><span class="p">,</span> <span class="n">Element2</span><span class="p">])</span>
+<span class="n">W</span> <span class="o">=</span> <span class="n">FunctionSpace</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">W_elem</span><span class="p">)</span>
+<span class="c1">#############################################</span>
+
+<span class="n">boundaries</span> <span class="o">=</span> <span class="n">MeshFunction</span><span class="p">(</span><span class="s1">&#39;size_t&#39;</span><span class="p">,</span> <span class="n">mesh</span><span class="p">,</span> <span class="n">mesh</span><span class="o">.</span><span class="n">topology</span><span class="p">()</span><span class="o">.</span><span class="n">dim</span><span class="p">()</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">subdomains</span> <span class="o">=</span> <span class="n">MeshFunction</span><span class="p">(</span><span class="s1">&#39;size_t&#39;</span><span class="p">,</span> <span class="n">mesh</span><span class="p">,</span> <span class="n">mesh</span><span class="o">.</span><span class="n">topology</span><span class="p">()</span><span class="o">.</span><span class="n">dim</span><span class="p">())</span>
+
+
+<span class="c1"># Defining integration symbols</span>
+<span class="n">dx</span> <span class="o">=</span> <span class="n">Measure</span><span class="p">(</span><span class="s1">&#39;dx&#39;</span><span class="p">,</span> <span class="n">domain</span><span class="o">=</span><span class="n">mesh</span><span class="p">,</span> <span class="n">subdomain_data</span><span class="o">=</span><span class="n">subdomains</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;quadrature_degree&#39;</span><span class="p">:</span> <span class="mi">15</span><span class="p">})</span>
+<span class="n">ds</span> <span class="o">=</span> <span class="n">Measure</span><span class="p">(</span><span class="s1">&#39;ds&#39;</span><span class="p">,</span> <span class="n">domain</span><span class="o">=</span><span class="n">mesh</span><span class="p">,</span> <span class="n">subdomain_data</span><span class="o">=</span><span class="n">boundaries</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;quadrature_degree&#39;</span><span class="p">:</span> <span class="mi">15</span><span class="p">})</span>
+
+
+<span class="c1">## Define variational problem</span>
+<span class="n">dw</span> <span class="o">=</span> <span class="n">TrialFunction</span><span class="p">(</span><span class="n">W</span><span class="p">)</span>            <span class="c1"># Incremental displacement</span>
+<span class="n">v</span>  <span class="o">=</span> <span class="n">TestFunction</span><span class="p">(</span><span class="n">W</span><span class="p">)</span>
+<span class="n">w</span> <span class="o">=</span> <span class="n">Function</span><span class="p">(</span><span class="n">W</span><span class="p">)</span>
+<span class="n">p</span><span class="p">,</span><span class="n">u</span> <span class="o">=</span> <span class="n">split</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
+
+<span class="c1">#Definig some continuum mechanics relations</span>
+<span class="n">d</span> <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">geometric_dimension</span><span class="p">()</span>
+<span class="n">I</span> <span class="o">=</span> <span class="n">Identity</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>             <span class="c1"># Identity tensor</span>
+<span class="n">F</span> <span class="o">=</span> <span class="n">I</span> <span class="o">+</span> <span class="n">grad</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>             <span class="c1"># Deformation gradient</span>
+<span class="n">C</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">T</span><span class="o">*</span><span class="n">F</span>                   <span class="c1"># Right cauchy stress tensor</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">F</span><span class="o">*</span><span class="n">F</span><span class="o">.</span><span class="n">T</span>                   <span class="c1"># Left cauchy stress tensor</span>
+<span class="n">Ib</span> <span class="o">=</span> <span class="n">tr</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>                  <span class="c1"># First invariant of b tensor</span>
+<span class="n">J</span>  <span class="o">=</span> <span class="n">det</span><span class="p">(</span><span class="n">F</span><span class="p">)</span>                 <span class="c1"># Jacobian of deformation gradient tensor</span>
+
+<span class="c1"># Shear modulus</span>
+<span class="n">mu</span> <span class="o">=</span> <span class="mf">0.5e6</span>
+
+<span class="c1"># Strain energy function for fully incompressible model</span>
+<span class="n">psi</span> <span class="o">=</span> <span class="n">mu</span><span class="o">/</span><span class="mf">2.</span><span class="o">*</span><span class="p">(</span><span class="n">Ib</span> <span class="o">-</span> <span class="mf">3.</span><span class="p">)</span><span class="o">*</span><span class="n">dx</span> <span class="o">-</span> <span class="n">p</span><span class="o">*</span><span class="p">(</span><span class="n">J</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">dx</span>
+
+<span class="c1"># Gateaux derivative in the direction of the test function</span>
+<span class="n">F1</span> <span class="o">=</span> <span class="n">derivative</span><span class="p">(</span><span class="n">psi</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">TestFunction</span><span class="p">(</span><span class="n">W</span><span class="p">))</span>
+
+<span class="c1"># Compute Jacobian of F</span>
+<span class="n">Jac</span> <span class="o">=</span> <span class="n">derivative</span><span class="p">(</span><span class="n">F1</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">TrialFunction</span><span class="p">(</span><span class="n">W</span><span class="p">))</span>
+
+<span class="n">sigma_11</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">def</span> <span class="nf">border</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">on_boundary</span><span class="p">):</span>
+              <span class="k">return</span> <span class="n">on_boundary</span>
+
+<span class="n">bound_x</span> <span class="o">=</span>  <span class="n">Expression</span><span class="p">((</span><span class="s2">&quot;t*x[0]&quot;</span><span class="p">),</span> <span class="n">degree</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">BC</span><span class="p">)):</span>
+
+              <span class="n">bound_x</span><span class="o">.</span><span class="n">t</span> <span class="o">=</span> <span class="n">BC</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+              <span class="n">bc_x</span> <span class="o">=</span> <span class="n">DirichletBC</span><span class="p">(</span><span class="n">W</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">bound_x</span><span class="p">,</span> <span class="n">border</span><span class="p">)</span>
+              <span class="n">bc_front</span> <span class="o">=</span> <span class="n">DirichletBC</span><span class="p">(</span><span class="n">W</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">Constant</span><span class="p">((</span><span class="mi">0</span><span class="p">)),</span> <span class="n">FRONT</span><span class="p">)</span>
+
+              <span class="n">bc_all</span> <span class="o">=</span> <span class="p">[</span><span class="n">bc_x</span><span class="p">,</span><span class="n">bc_front</span><span class="p">]</span>
+
+              <span class="n">problem</span> <span class="o">=</span> <span class="n">NonlinearVariationalProblem</span><span class="p">(</span><span class="n">F1</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">bc_all</span><span class="p">,</span> <span class="n">Jac</span><span class="p">)</span>
+
+              <span class="n">solver</span> <span class="o">=</span> <span class="n">NonlinearVariationalSolver</span><span class="p">(</span><span class="n">problem</span><span class="p">)</span>
+
+              <span class="n">solver</span><span class="o">.</span><span class="n">solve</span><span class="p">()</span>
+
+              <span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">u</span><span class="p">)</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="c1">#Stress calculation</span>
+              <span class="n">sig</span> <span class="o">=</span> <span class="n">mu</span> <span class="o">*</span> <span class="n">b</span> <span class="o">-</span> <span class="n">p</span> <span class="o">*</span> <span class="n">I</span>
+<span class="c1"># Defining a tenso function space</span>
+              <span class="n">V</span> <span class="o">=</span> <span class="n">TensorFunctionSpace</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="s1">&#39;Lagrange&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="c1"># Projection of the stress on the tensor function space</span>
+              <span class="n">sig1</span> <span class="o">=</span> <span class="n">project</span><span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="n">V</span><span class="p">)</span>
+
+              <span class="n">sigma_11</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">sig1</span><span class="o">.</span><span class="n">vector</span><span class="p">()</span><span class="o">.</span><span class="n">get_local</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span><span class="o">*</span><span class="mf">0.000001</span><span class="p">)</span>
+
+<span class="k">print</span> <span class="p">(</span><span class="n">sigma_11</span><span class="p">)</span>
+
+<span class="c1">#Obtained reaults for mu = 0.5 MPa#</span>
+<span class="n">sigma_05</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">3.3220833333333144</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.4800000000022377</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.968750000000018</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.6216666666666604</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.3673214285714232</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.1699999999999993</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0098611111111104</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.8749999999999992</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.7578409090909061</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.6533333334279298</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5579807692745585</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.4692857143072567</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.3854166666778288</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.3050000000060496</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.2269852941210564</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.15055555555754435</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.07506578947488027</span><span class="p">,</span> <span class="o">-</span><span class="mf">7.390848180406038e-13</span><span class="p">,</span> <span class="mf">0.38124999999999554</span><span class="p">,</span> <span class="mf">0.7916666666666644</span><span class="p">,</span> <span class="mf">1.2455357142857126</span><span class="p">,</span> <span class="mf">1.7499999999999942</span><span class="p">,</span> <span class="mf">2.309027777777776</span><span class="p">,</span> <span class="mf">2.924999999888631</span><span class="p">,</span> <span class="mf">3.5994318181378744</span><span class="p">,</span> <span class="mf">4.333333333314409</span><span class="p">,</span> <span class="mf">5.12740384614507</span><span class="p">,</span> <span class="mf">5.982142857138549</span><span class="p">,</span> <span class="mf">6.897916666664428</span><span class="p">,</span> <span class="mf">7.874999999998786</span><span class="p">,</span> <span class="mf">8.913602941175803</span><span class="p">,</span> <span class="mf">10.013888888888484</span><span class="p">,</span> <span class="mf">9.878593176733789</span><span class="p">,</span> <span class="mf">12.399999999906841</span><span class="p">]</span>
+
+<span class="c1">#Obtained reaults for mu = 1.5 MPa#</span>
+<span class="n">sigma_15</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">9.966249999999953</span><span class="p">,</span> <span class="o">-</span><span class="mf">7.4400000000052655</span><span class="p">,</span> <span class="o">-</span><span class="mf">5.906250000000058</span><span class="p">,</span> <span class="o">-</span><span class="mf">4.864999999999997</span><span class="p">,</span> <span class="o">-</span><span class="mf">4.101964285714497</span><span class="p">,</span> <span class="o">-</span><span class="mf">3.50999999999999</span><span class="p">,</span> <span class="o">-</span><span class="mf">3.029583333333331</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.624999999999993</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.2735227272727245</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.9599999999999933</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.6739423078102886</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.4078571429217734</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.1562500000334857</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.9150000000181479</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.6809558823631715</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.45166666667263133</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.2251973684246401</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.217263493368278e-12</span><span class="p">,</span> <span class="mf">1.1437499999999825</span><span class="p">,</span> <span class="mf">2.3749999999999947</span><span class="p">,</span> <span class="mf">3.7366071428571317</span><span class="p">,</span> <span class="mf">5.250000000116358</span><span class="p">,</span> <span class="mf">6.927083333333332</span><span class="p">,</span> <span class="mf">8.774999999844844</span><span class="p">,</span> <span class="mf">10.798295454413642</span><span class="p">,</span> <span class="mf">12.999999999943254</span><span class="p">,</span> <span class="mf">15.382211538435248</span><span class="p">,</span> <span class="mf">17.94642857141561</span><span class="p">,</span> <span class="mf">20.69374999999328</span><span class="p">,</span> <span class="mf">23.624999999996415</span><span class="p">,</span> <span class="mf">26.740808823527377</span><span class="p">,</span> <span class="mf">30.04166666666549</span><span class="p">,</span> <span class="mf">29.63577953020131</span><span class="p">,</span> <span class="mf">37.19999999983032</span><span class="p">]</span>
+
+<span class="c1">#Obtained reaults for mu = 3.5 MPa#</span>
+<span class="n">sigma_35</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">23.254583333333265</span><span class="p">,</span> <span class="o">-</span><span class="mf">17.360000000015262</span><span class="p">,</span> <span class="o">-</span><span class="mf">13.781250000000021</span><span class="p">,</span> <span class="o">-</span><span class="mf">11.351666666666649</span><span class="p">,</span> <span class="o">-</span><span class="mf">9.571249999999983</span><span class="p">,</span> <span class="o">-</span><span class="mf">8.189999999999996</span><span class="p">,</span> <span class="o">-</span><span class="mf">7.069027777155056</span><span class="p">,</span> <span class="o">-</span><span class="mf">6.124999999999978</span><span class="p">,</span> <span class="o">-</span><span class="mf">5.304886363636268</span><span class="p">,</span> <span class="o">-</span><span class="mf">4.573333333994748</span><span class="p">,</span> <span class="o">-</span><span class="mf">3.9058653849219174</span><span class="p">,</span> <span class="o">-</span><span class="mf">3.285000000150805</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.697916666744805</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.1350000000423432</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.5888970588473983</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0538888889028104</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5254605263241604</span><span class="p">,</span> <span class="o">-</span><span class="mf">5.173676343700641e-12</span><span class="p">,</span> <span class="mf">2.6687499999999695</span><span class="p">,</span> <span class="mf">5.5416666666666545</span><span class="p">,</span> <span class="mf">8.718749999880098</span><span class="p">,</span> <span class="mf">12.249999999999975</span><span class="p">,</span> <span class="mf">16.163194443414437</span><span class="p">,</span> <span class="mf">20.47499999922037</span><span class="p">,</span> <span class="mf">25.19602272696517</span><span class="p">,</span> <span class="mf">30.333333333200915</span><span class="p">,</span> <span class="mf">35.89182692301562</span><span class="p">,</span> <span class="mf">41.874999999969944</span><span class="p">,</span> <span class="mf">48.28541666665088</span><span class="p">,</span> <span class="mf">55.1249999999915</span><span class="p">,</span> <span class="mf">62.39522058823055</span><span class="p">,</span> <span class="mf">70.09722222221926</span><span class="p">,</span> <span class="mf">69.15015223713617</span><span class="p">,</span> <span class="mf">86.79999999993669</span><span class="p">]</span>
+
+<span class="c1">#Plotting the Results#</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">r&#39;$\mathrm{Stretch}$&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">r&#39;$\mathrm{\sigma_{xx}(MPa)}$&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">stretch</span><span class="p">,</span><span class="n">sigma_05</span><span class="p">,</span>  <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">r&#39;$(\mu=0.5\/\/MPa)$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">stretch</span><span class="p">,</span><span class="n">sigma_15</span><span class="p">,</span>  <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;c&#39;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">r&#39;$(\mu=1.5\/\/MPa)$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">stretch</span><span class="p">,</span><span class="n">sigma_35</span><span class="p">,</span>  <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">r&#39;$(\mu=3.5\/\/MPa)$&#39;</span><span class="p">)</span>
+<span class="n">lg</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">ncol</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+<span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+<span class="n">axes</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">5</span><span class="p">])</span>
+<span class="n">axes</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="o">-</span><span class="mi">15</span><span class="p">,</span> <span class="mi">30</span><span class="p">])</span>
+
+<span class="n">axes</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">([</span><span class="o">-</span><span class="mi">15</span><span class="p">,</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">15</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">25</span><span class="p">,</span><span class="mi">30</span><span class="p">,</span><span class="mi">35</span><span class="p">])</span>
+<span class="n">axes</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">])</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;major&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The results of analytical solution and finite element implementation are compared in
+figure.1:</p>
+<div class="figure align-center" id="id1">
+<img alt="../_images/2.png" src="../_images/2.png" />
+<p class="caption"><span class="caption-number">Fig. 1 </span><span class="caption-text">The stress results for the fully incompressible material model in uniaxial loading - Finite Element (Right) vs Analytical (Left)</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
+</div>
+<p>The analytical solution for the Biaxial stretch for different shear modulus could be obtained using the code:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span class="n">lamda</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.15</span><span class="p">,</span><span class="mf">0.2</span><span class="p">,</span><span class="mf">0.25</span><span class="p">,</span><span class="mf">0.3</span><span class="p">,</span><span class="mf">0.35</span><span class="p">,</span><span class="mf">0.4</span><span class="p">,</span><span class="mf">0.45</span><span class="p">,</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">0.55</span><span class="p">,</span><span class="mf">0.6</span><span class="p">,</span><span class="mf">0.65</span><span class="p">,</span><span class="mf">0.7</span><span class="p">,</span><span class="mf">0.75</span><span class="p">,</span><span class="mf">0.8</span><span class="p">,</span><span class="mf">0.85</span><span class="p">,</span><span class="mf">0.9</span><span class="p">,</span><span class="mf">0.95</span><span class="p">,</span><span class="mf">1.</span><span class="p">,</span><span class="mf">1.25</span><span class="p">,</span><span class="mf">1.5</span><span class="p">,</span><span class="mf">1.75</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mf">2.25</span><span class="p">,</span><span class="mf">2.5</span><span class="p">,</span><span class="mf">2.75</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mf">3.25</span><span class="p">,</span><span class="mf">3.5</span><span class="p">,</span><span class="mf">3.75</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mf">4.25</span><span class="p">,</span><span class="mf">4.5</span><span class="p">,</span><span class="mf">4.47</span><span class="p">,</span><span class="mi">5</span><span class="p">]</span>
+
+<span class="c1"># Shear modulus = 0.5 MPa</span>
+<span class="n">sigma_05</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="c1"># Shear modulus = 1.5 MPa</span>
+<span class="n">sigma_15</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="c1"># Shear modulus = 3.5 MPa</span>
+<span class="n">sigma_35</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">lamda</span><span class="p">)):</span>
+
+        <span class="n">a</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="nb">pow</span><span class="p">(</span><span class="n">lamda</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="mf">1.</span> <span class="o">/</span><span class="p">(</span><span class="nb">pow</span><span class="p">(</span><span class="n">lamda</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="mi">4</span><span class="p">)))</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="mf">1.5</span> <span class="o">*</span> <span class="p">(</span><span class="nb">pow</span><span class="p">(</span><span class="n">lamda</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="mf">1.</span> <span class="o">/</span> <span class="p">(</span><span class="nb">pow</span><span class="p">(</span><span class="n">lamda</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="mi">4</span><span class="p">)))</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="mf">3.5</span> <span class="o">*</span> <span class="p">(</span><span class="nb">pow</span><span class="p">(</span><span class="n">lamda</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="mf">1.</span> <span class="o">/</span> <span class="p">(</span><span class="nb">pow</span><span class="p">(</span><span class="n">lamda</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="mi">4</span><span class="p">)))</span>
+
+        <span class="n">sigma_05</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+        <span class="n">sigma_15</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+        <span class="n">sigma_35</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+
+
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="k">print</span> <span class="p">(</span><span class="n">sigma_05</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">r&#39;$\mathrm{Stretch}$&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">r&#39;$\mathrm{\sigma_{xx}=\sigma_{yy}\/\/(MPa)}$&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">lamda</span><span class="p">,</span><span class="n">sigma_05</span><span class="p">,</span>  <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;lime&#39;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">r&#39;$(\mu=0.5)$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">lamda</span><span class="p">,</span><span class="n">sigma_15</span><span class="p">,</span>  <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;m&#39;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">r&#39;$(\mu=1.5)$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">lamda</span><span class="p">,</span><span class="n">sigma_35</span><span class="p">,</span>  <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;orange&#39;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">r&#39;$(\mu=3.5)$&#39;</span><span class="p">)</span>
+<span class="n">lg</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">ncol</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+<span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+<span class="n">axes</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">5</span><span class="p">])</span>
+<span class="n">axes</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="o">-</span><span class="mi">15</span><span class="p">,</span> <span class="mi">35</span><span class="p">])</span>
+
+<span class="n">axes</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">([</span><span class="o">-</span><span class="mi">15</span><span class="p">,</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">15</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">25</span><span class="p">,</span><span class="mi">30</span><span class="p">,</span><span class="mi">35</span><span class="p">])</span>
+<span class="n">axes</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">])</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;major&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>And similarly the implmentation in FEniCS is presented here:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">dolfin</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="c1"># Defining Stretches</span>
+<span class="n">stretch</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.15</span><span class="p">,</span><span class="mf">0.2</span><span class="p">,</span><span class="mf">0.25</span><span class="p">,</span><span class="mf">0.3</span><span class="p">,</span><span class="mf">0.35</span><span class="p">,</span><span class="mf">0.4</span><span class="p">,</span><span class="mf">0.45</span><span class="p">,</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">0.55</span><span class="p">,</span><span class="mf">0.6</span><span class="p">,</span><span class="mf">0.65</span><span class="p">,</span><span class="mf">0.7</span><span class="p">,</span><span class="mf">0.75</span><span class="p">,</span><span class="mf">0.8</span><span class="p">,</span><span class="mf">0.85</span><span class="p">,</span><span class="mf">0.9</span><span class="p">,</span><span class="mf">0.95</span><span class="p">,</span><span class="mf">1.</span><span class="p">,</span><span class="mf">1.25</span><span class="p">,</span><span class="mf">1.5</span><span class="p">,</span><span class="mf">1.75</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mf">2.25</span><span class="p">,</span><span class="mf">2.5</span><span class="p">,</span><span class="mf">2.75</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mf">3.25</span><span class="p">,</span><span class="mf">3.5</span><span class="p">,</span><span class="mf">3.75</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mf">4.25</span><span class="p">,</span><span class="mf">4.5</span><span class="p">,</span><span class="mf">4.47</span><span class="p">,</span><span class="mi">5</span><span class="p">]</span>
+<span class="n">BC</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">stretch</span><span class="p">)):</span>
+         <span class="n">N</span> <span class="o">=</span> <span class="n">stretch</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">-</span> <span class="mf">1.0</span>
+         <span class="n">BC</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
+
+<span class="n">tol</span> <span class="o">=</span> <span class="mf">1E-14</span>
+<span class="c1"># Define boundaries</span>
+<span class="k">def</span> <span class="nf">LEFT</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">on_boundary</span><span class="p">):</span>
+         <span class="k">return</span> <span class="n">on_boundary</span> <span class="ow">and</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">tol</span>
+
+<span class="k">def</span> <span class="nf">RIGHT</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">on_boundary</span><span class="p">):</span>
+         <span class="k">return</span> <span class="n">on_boundary</span> <span class="ow">and</span> <span class="nb">abs</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">tol</span>
+
+<span class="k">def</span> <span class="nf">BOTTOM</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">on_boundary</span><span class="p">):</span>
+         <span class="k">return</span> <span class="n">on_boundary</span> <span class="ow">and</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">tol</span>
+
+<span class="k">def</span> <span class="nf">TOP</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">on_boundary</span><span class="p">):</span>
+         <span class="k">return</span> <span class="n">on_boundary</span> <span class="ow">and</span> <span class="nb">abs</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">tol</span>
+
+<span class="k">def</span> <span class="nf">FRONT</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">on_boundary</span><span class="p">):</span>
+         <span class="k">return</span> <span class="n">on_boundary</span> <span class="ow">and</span> <span class="nb">abs</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">tol</span>
+
+<span class="k">def</span> <span class="nf">BACK</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">on_boundary</span><span class="p">):</span>
+         <span class="k">return</span> <span class="n">on_boundary</span> <span class="ow">and</span> <span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> <span class="o">&lt;</span> <span class="n">tol</span>
+
+<span class="c1"># Defining the mesh which is a single hexahedron element</span>
+<span class="n">mesh</span> <span class="o">=</span> <span class="n">UnitCubeMesh</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">CellType</span><span class="o">.</span><span class="n">Type</span><span class="o">.</span><span class="n">hexahedron</span><span class="p">)</span>
+
+
+<span class="c1">#element for pressure field</span>
+<span class="n">Element1</span> <span class="o">=</span> <span class="n">FiniteElement</span><span class="p">(</span><span class="s2">&quot;CG&quot;</span><span class="p">,</span> <span class="n">mesh</span><span class="o">.</span><span class="n">ufl_cell</span><span class="p">(),</span> <span class="mi">1</span><span class="p">)</span>
+<span class="c1">#element for displacement field</span>
+<span class="n">Element2</span> <span class="o">=</span> <span class="n">VectorElement</span><span class="p">(</span><span class="s2">&quot;CG&quot;</span><span class="p">,</span> <span class="n">mesh</span><span class="o">.</span><span class="n">ufl_cell</span><span class="p">(),</span> <span class="mi">2</span><span class="p">)</span>
+
+<span class="c1"># Defining the mixed function space</span>
+<span class="n">W_elem</span> <span class="o">=</span> <span class="n">MixedElement</span><span class="p">([</span><span class="n">Element1</span><span class="p">,</span> <span class="n">Element2</span><span class="p">])</span>
+<span class="n">W</span> <span class="o">=</span> <span class="n">FunctionSpace</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">W_elem</span><span class="p">)</span>
+<span class="c1">#############################################</span>
+
+<span class="n">boundaries</span> <span class="o">=</span> <span class="n">MeshFunction</span><span class="p">(</span><span class="s1">&#39;size_t&#39;</span><span class="p">,</span> <span class="n">mesh</span><span class="p">,</span> <span class="n">mesh</span><span class="o">.</span><span class="n">topology</span><span class="p">()</span><span class="o">.</span><span class="n">dim</span><span class="p">()</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">subdomains</span> <span class="o">=</span> <span class="n">MeshFunction</span><span class="p">(</span><span class="s1">&#39;size_t&#39;</span><span class="p">,</span> <span class="n">mesh</span><span class="p">,</span> <span class="n">mesh</span><span class="o">.</span><span class="n">topology</span><span class="p">()</span><span class="o">.</span><span class="n">dim</span><span class="p">())</span>
+
+
+<span class="c1"># Defining integration symbols</span>
+<span class="n">dx</span> <span class="o">=</span> <span class="n">Measure</span><span class="p">(</span><span class="s1">&#39;dx&#39;</span><span class="p">,</span> <span class="n">domain</span><span class="o">=</span><span class="n">mesh</span><span class="p">,</span> <span class="n">subdomain_data</span><span class="o">=</span><span class="n">subdomains</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;quadrature_degree&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">})</span>
+<span class="n">ds</span> <span class="o">=</span> <span class="n">Measure</span><span class="p">(</span><span class="s1">&#39;ds&#39;</span><span class="p">,</span> <span class="n">domain</span><span class="o">=</span><span class="n">mesh</span><span class="p">,</span> <span class="n">subdomain_data</span><span class="o">=</span><span class="n">boundaries</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;quadrature_degree&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">})</span>
+
+
+<span class="c1">## Define variational problem</span>
+<span class="n">dw</span> <span class="o">=</span> <span class="n">TrialFunction</span><span class="p">(</span><span class="n">W</span><span class="p">)</span>            <span class="c1"># Incremental displacement</span>
+<span class="n">v</span>  <span class="o">=</span> <span class="n">TestFunction</span><span class="p">(</span><span class="n">W</span><span class="p">)</span>
+<span class="n">w</span> <span class="o">=</span> <span class="n">Function</span><span class="p">(</span><span class="n">W</span><span class="p">)</span>
+<span class="n">p</span><span class="p">,</span><span class="n">u</span> <span class="o">=</span> <span class="n">split</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
+
+<span class="c1">#Definig some continuum mechanics relations</span>
+<span class="n">d</span> <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">geometric_dimension</span><span class="p">()</span>
+<span class="n">I</span> <span class="o">=</span> <span class="n">Identity</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>             <span class="c1"># Identity tensor</span>
+<span class="n">F</span> <span class="o">=</span> <span class="n">I</span> <span class="o">+</span> <span class="n">grad</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>             <span class="c1"># Deformation gradient</span>
+<span class="n">C</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">T</span><span class="o">*</span><span class="n">F</span>                   <span class="c1"># Right cauchy stress tensor</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">F</span><span class="o">*</span><span class="n">F</span><span class="o">.</span><span class="n">T</span>                   <span class="c1"># Left cauchy stress tensor</span>
+<span class="n">Ib</span> <span class="o">=</span> <span class="n">tr</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>                  <span class="c1"># First invariant of b tensor</span>
+<span class="n">J</span>  <span class="o">=</span> <span class="n">det</span><span class="p">(</span><span class="n">F</span><span class="p">)</span>                 <span class="c1"># Jacobian of deformation gradient tensor</span>
+
+<span class="c1"># Shear modulus</span>
+<span class="n">mu</span> <span class="o">=</span> <span class="mf">3.5e6</span>
+
+<span class="c1"># Strain energy function for fully incompressible model</span>
+<span class="n">psi</span> <span class="o">=</span> <span class="n">mu</span><span class="o">/</span><span class="mf">2.</span><span class="o">*</span><span class="p">(</span><span class="n">Ib</span> <span class="o">-</span> <span class="mf">3.</span><span class="p">)</span><span class="o">*</span><span class="n">dx</span> <span class="o">-</span> <span class="n">p</span><span class="o">*</span><span class="p">(</span><span class="n">J</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">dx</span>
+
+<span class="c1"># Gateaux derivative in the direction of the test function</span>
+<span class="n">F1</span> <span class="o">=</span> <span class="n">derivative</span><span class="p">(</span><span class="n">psi</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">TestFunction</span><span class="p">(</span><span class="n">W</span><span class="p">))</span>
+
+<span class="c1"># Compute Jacobian of F</span>
+<span class="n">Jac</span> <span class="o">=</span> <span class="n">derivative</span><span class="p">(</span><span class="n">F1</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">TrialFunction</span><span class="p">(</span><span class="n">W</span><span class="p">))</span>
+
+<span class="n">sigma_11</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">sigma_22</span> <span class="o">=</span> <span class="p">[]</span>
+
+
+<span class="k">def</span> <span class="nf">border</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">on_boundary</span><span class="p">):</span>
+         <span class="k">return</span> <span class="n">on_boundary</span>
+
+<span class="n">bound_x</span> <span class="o">=</span>  <span class="n">Expression</span><span class="p">((</span><span class="s2">&quot;t*x[0]&quot;</span><span class="p">),</span> <span class="n">degree</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">bound_y</span> <span class="o">=</span>  <span class="n">Expression</span><span class="p">((</span><span class="s2">&quot;t*x[1]&quot;</span><span class="p">),</span> <span class="n">degree</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">BC</span><span class="p">)):</span>
+
+         <span class="n">bound_x</span><span class="o">.</span><span class="n">t</span> <span class="o">=</span> <span class="n">BC</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+         <span class="n">bound_y</span><span class="o">.</span><span class="n">t</span> <span class="o">=</span> <span class="n">BC</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+         <span class="n">bc_x</span> <span class="o">=</span> <span class="n">DirichletBC</span><span class="p">(</span><span class="n">W</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">bound_x</span><span class="p">,</span> <span class="n">border</span><span class="p">)</span>
+         <span class="n">bc_y</span> <span class="o">=</span> <span class="n">DirichletBC</span><span class="p">(</span><span class="n">W</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">bound_y</span><span class="p">,</span> <span class="n">border</span><span class="p">)</span>
+         <span class="n">bc_front</span> <span class="o">=</span> <span class="n">DirichletBC</span><span class="p">(</span><span class="n">W</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">Constant</span><span class="p">((</span><span class="mi">0</span><span class="p">)),</span> <span class="n">FRONT</span><span class="p">)</span>
+
+         <span class="n">bc_all</span> <span class="o">=</span> <span class="p">[</span><span class="n">bc_x</span><span class="p">,</span><span class="n">bc_y</span><span class="p">,</span><span class="n">bc_front</span><span class="p">]</span>
+
+         <span class="n">problem</span> <span class="o">=</span> <span class="n">NonlinearVariationalProblem</span><span class="p">(</span><span class="n">F1</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">bc_all</span><span class="p">,</span> <span class="n">Jac</span><span class="p">)</span>
+
+         <span class="n">solver</span> <span class="o">=</span> <span class="n">NonlinearVariationalSolver</span><span class="p">(</span><span class="n">problem</span><span class="p">)</span>
+
+         <span class="n">solver</span><span class="o">.</span><span class="n">solve</span><span class="p">()</span>
+
+         <span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">u</span><span class="p">)</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="c1">#Stress calculation</span>
+         <span class="n">sig</span> <span class="o">=</span> <span class="n">mu</span> <span class="o">*</span> <span class="n">b</span> <span class="o">-</span> <span class="n">p</span> <span class="o">*</span> <span class="n">I</span>
+<span class="c1"># Defining a tensor function space</span>
+         <span class="n">Vv</span> <span class="o">=</span> <span class="n">TensorFunctionSpace</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="s1">&#39;Lagrange&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="c1"># Projection of the stress on the tensor function space</span>
+         <span class="n">sig1</span> <span class="o">=</span> <span class="n">project</span><span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="n">Vv</span><span class="p">)</span>
+
+         <span class="n">sigma_11</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">sig1</span><span class="o">.</span><span class="n">vector</span><span class="p">()</span><span class="o">.</span><span class="n">get_local</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span><span class="o">*</span><span class="mf">0.000001</span><span class="p">)</span>
+
+<span class="k">print</span> <span class="p">(</span><span class="n">sigma_11</span><span class="p">)</span>
+
+<span class="c1">#Obtained reaults for mu = 0.5 MPa#</span>
+<span class="n">sigma_05</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">987.6430709876522</span><span class="p">,</span> <span class="o">-</span><span class="mf">312.4800000000002</span><span class="p">,</span> <span class="o">-</span><span class="mf">127.96874999999937</span><span class="p">,</span> <span class="o">-</span><span class="mf">61.68339506172817</span><span class="p">,</span> <span class="o">-</span><span class="mf">33.258200229071136</span><span class="p">,</span> <span class="o">-</span><span class="mf">19.451249999999895</span><span class="p">,</span> <span class="o">-</span><span class="mf">12.092013222069799</span><span class="p">,</span> <span class="o">-</span><span class="mf">7.8750000000000036</span><span class="p">,</span> <span class="o">-</span><span class="mf">5.31285764292055</span><span class="p">,</span> <span class="o">-</span><span class="mf">3.678024691358014</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.589772373166203</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.8374656393169522</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.2989969135802488</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.9007031249999968</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5965929377042906</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.35707895137936096</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.16261883157741178</span><span class="p">,</span> <span class="mf">8.145274061386054e-17</span><span class="p">,</span> <span class="mf">0.5764499999999999</span><span class="p">,</span> <span class="mf">1.0262345679012317</span><span class="p">,</span> <span class="mf">1.477938879633484</span><span class="p">,</span> <span class="mf">1.9687500000000013</span><span class="p">,</span> <span class="mf">2.5117407788446906</span><span class="p">,</span> <span class="mf">3.1121999999999943</span><span class="p">,</span> <span class="mf">3.772507427771319</span><span class="p">,</span> <span class="mf">4.4938271604938125</span><span class="p">,</span> <span class="mf">5.276768364202937</span><span class="p">,</span> <span class="mf">6.121668054977084</span><span class="p">,</span> <span class="mf">7.028721604938255</span><span class="p">,</span> <span class="mf">7.99804687499999</span><span class="p">,</span> <span class="mf">9.029717451299652</span><span class="p">,</span> <span class="mf">10.12378067367779</span><span class="p">,</span> <span class="mf">9.989197609075557</span><span class="p">,</span> <span class="mf">12.499199999999991</span><span class="p">]</span>
+
+<span class="c1">#Obtained reaults for mu = 0.5 MPa#</span>
+<span class="n">sigma_15</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">2962.92921296296</span><span class="p">,</span> <span class="o">-</span><span class="mf">937.4399999999958</span><span class="p">,</span> <span class="o">-</span><span class="mf">383.90625000000057</span><span class="p">,</span> <span class="o">-</span><span class="mf">185.0501851851853</span><span class="p">,</span> <span class="o">-</span><span class="mf">99.77460068721344</span><span class="p">,</span> <span class="o">-</span><span class="mf">58.3537499999997</span><span class="p">,</span> <span class="o">-</span><span class="mf">36.27603966620935</span><span class="p">,</span> <span class="o">-</span><span class="mf">23.624999999999954</span><span class="p">,</span> <span class="o">-</span><span class="mf">15.938572928761642</span><span class="p">,</span> <span class="o">-</span><span class="mf">11.034074074074056</span><span class="p">,</span> <span class="o">-</span><span class="mf">7.769317119498598</span><span class="p">,</span> <span class="o">-</span><span class="mf">5.512396917950832</span><span class="p">,</span> <span class="o">-</span><span class="mf">3.8969907407407285</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.702109374999993</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.7897788131128693</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0712368541380837</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.4878564947322365</span><span class="p">,</span> <span class="mf">3.805590898063224e-16</span><span class="p">,</span> <span class="mf">1.7293499999999953</span><span class="p">,</span> <span class="mf">3.0787037037036926</span><span class="p">,</span> <span class="mf">4.433816638900447</span><span class="p">,</span> <span class="mf">5.906249999999991</span><span class="p">,</span> <span class="mf">7.53522233653405</span><span class="p">,</span> <span class="mf">9.336599999999983</span><span class="p">,</span> <span class="mf">11.317522283314</span><span class="p">,</span> <span class="mf">13.48148148148149</span><span class="p">,</span> <span class="mf">15.830305092608764</span><span class="p">,</span> <span class="mf">18.365004164931293</span><span class="p">,</span> <span class="mf">21.08616481481487</span><span class="p">,</span> <span class="mf">23.994140624999996</span><span class="p">,</span> <span class="mf">27.089152353899063</span><span class="p">,</span> <span class="mf">30.371342021033435</span><span class="p">,</span> <span class="mf">29.967592827226596</span><span class="p">,</span> <span class="mf">37.49759999999998</span><span class="p">]</span>
+
+<span class="c1">#Obtained reaults for mu = 0.5 MPa#</span>
+<span class="n">sigma_35</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">6913.501496913527</span><span class="p">,</span> <span class="o">-</span><span class="mf">2187.3599999999847</span><span class="p">,</span> <span class="o">-</span><span class="mf">895.7812499999939</span><span class="p">,</span> <span class="o">-</span><span class="mf">431.78376543209447</span><span class="p">,</span> <span class="o">-</span><span class="mf">232.8074016034988</span><span class="p">,</span> <span class="o">-</span><span class="mf">136.15874999999932</span><span class="p">,</span> <span class="o">-</span><span class="mf">84.6440925544885</span><span class="p">,</span> <span class="o">-</span><span class="mf">55.12499999999978</span><span class="p">,</span> <span class="o">-</span><span class="mf">37.19000350044388</span><span class="p">,</span> <span class="o">-</span><span class="mf">25.746172839506176</span><span class="p">,</span> <span class="o">-</span><span class="mf">18.128406612163456</span><span class="p">,</span> <span class="o">-</span><span class="mf">12.862259475218625</span><span class="p">,</span> <span class="o">-</span><span class="mf">9.092978395061715</span><span class="p">,</span> <span class="o">-</span><span class="mf">6.304921874999984</span><span class="p">,</span> <span class="o">-</span><span class="mf">4.176150563930013</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.499552659655526</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.1383318210418847</span><span class="p">,</span> <span class="mf">6.882290512141593e-16</span><span class="p">,</span> <span class="mf">4.035149999999988</span><span class="p">,</span> <span class="mf">7.183641975308622</span><span class="p">,</span> <span class="mf">10.345572157434399</span><span class="p">,</span> <span class="mf">13.781249999999941</span><span class="p">,</span> <span class="mf">17.582185451912803</span><span class="p">,</span> <span class="mf">21.78539999999999</span><span class="p">,</span> <span class="mf">26.407551994399167</span><span class="p">,</span> <span class="mf">31.456790123456745</span><span class="p">,</span> <span class="mf">36.93737854942055</span><span class="p">,</span> <span class="mf">42.85167638483961</span><span class="p">,</span> <span class="mf">49.20105123456792</span><span class="p">,</span> <span class="mf">55.986328124999986</span><span class="p">,</span> <span class="mf">63.2080221590976</span><span class="p">,</span> <span class="mf">70.8664647157445</span><span class="p">,</span> <span class="mf">69.92438326352887</span><span class="p">,</span> <span class="mf">87.49440000000017</span><span class="p">]</span>
+
+<span class="c1">#Plotting#</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="c1">#print (sigma_05)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">r&#39;$\mathrm{Stretch}$&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">r&#39;$\mathrm{\sigma_{xx}=\sigma_{yy}\/\/(MPa)}$&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">stretch</span><span class="p">,</span><span class="n">sigma_05</span><span class="p">,</span>  <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">r&#39;$(\mu=0.5)$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">stretch</span><span class="p">,</span><span class="n">sigma_15</span><span class="p">,</span>  <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;g&#39;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">r&#39;$(\mu=1.5)$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">stretch</span><span class="p">,</span><span class="n">sigma_35</span><span class="p">,</span>  <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;crimson&#39;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">r&#39;$(\mu=3.5)$&#39;</span><span class="p">)</span>
+<span class="n">lg</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">ncol</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+<span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+<span class="n">axes</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">5</span><span class="p">])</span>
+<span class="n">axes</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="o">-</span><span class="mi">15</span><span class="p">,</span> <span class="mi">35</span><span class="p">])</span>
+
+<span class="n">axes</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">([</span><span class="o">-</span><span class="mi">15</span><span class="p">,</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">15</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">25</span><span class="p">,</span><span class="mi">30</span><span class="p">,</span><span class="mi">35</span><span class="p">])</span>
+<span class="n">axes</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">])</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;major&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="figure align-center" id="id2">
+<img alt="../_images/3.png" src="../_images/3.png" />
+<p class="caption"><span class="caption-number">Fig. 2 </span><span class="caption-text">The stress results for the fully incompressible material model in biaxial loading - Finite Element (Right) vs Analytical (Left)</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Considering the <span class="math notranslate nohighlight">\(\textbf{Mooney-Rivlin}\)</span> hyperelastic model, the strain energy function is defined as:</p>
+<div class="math notranslate nohighlight" id="eq-38">
+<span id="equation-eq-38"></span><span class="eqno">(38)<a class="headerlink" href="#eq-38" title="Permalink to this equation">¶</a></span>\[ W= c_1(I_1-3)+c_2(I_2-3)+p(J-1)\]</div>
+<p>The stress term is defined as:</p>
+<div class="math notranslate nohighlight" id="eq-39">
+<span id="equation-eq-39"></span><span class="eqno">(39)<a class="headerlink" href="#eq-39" title="Permalink to this equation">¶</a></span>\[ \sigma= 2c_1 \textbf{b}-2c_2 \textbf{b}^{-1} - p\textbf{I}\]</div>
+<p class="last">The relation between the shera modulus and <span class="math notranslate nohighlight">\(c_1\)</span> and <span class="math notranslate nohighlight">\(c_2\)</span> constants is expressed as:  <span class="math notranslate nohighlight">\(\mu=\frac{c_1+c_2}{2}\)</span></p>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="nearly.html" class="btn btn-neutral float-right" title="3. Nearly Incompressible Model" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="intro.html" class="btn btn-neutral" title="1. Introduction" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2021, Jafar Arash Mehr.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'2021',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

@@ -1,0 +1,265 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>1. Introduction &mdash; Hyperelasticity 2021 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="Hyperelasticity 2021 documentation" href="../index.html"/>
+        <link rel="next" title="2. Fully Incompressible Model" href="fully.html"/>
+        <link rel="prev" title="Required Packages" href="package.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html">
+          
+
+          
+            
+            <img src="../_static/106.png" class="logo" />
+          
+          </a>
+
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <p class="caption"><span class="caption-text">Table of Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="what.html">What is this document about?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="resource.html">Useful Resources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="package.html">Required Packages</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">1. Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fully.html">2. Fully Incompressible Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nearly.html">3. Nearly Incompressible Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="compressible.html">4. Compressible Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="axi.html">5. Axisymmetric Model</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">Hyperelasticity</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+    <li>1. Introduction</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/new/intro.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="introduction">
+<h1>1. Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
+<p>The strain energy function <span class="math notranslate nohighlight">\(W\)</span> is defined as:</p>
+<div class="math notranslate nohighlight" id="eq-1">
+<span id="equation-eq-1"></span><span class="eqno">(1)<a class="headerlink" href="#eq-1" title="Permalink to this equation">¶</a></span>\[ W=W(I_1 (\textbf {C}),I_2 (\textbf {C}),I_3 (\textbf {C}))\]</div>
+<p>In the above equations, <span class="math notranslate nohighlight">\(\textbf {C}\)</span> is the right Cauchy deformation tensor:</p>
+<div class="math notranslate nohighlight" id="eq-2">
+<span id="equation-eq-2"></span><span class="eqno">(2)<a class="headerlink" href="#eq-2" title="Permalink to this equation">¶</a></span>\[\textbf {C}=F^TF\]</div>
+<p>Where <span class="math notranslate nohighlight">\(F\)</span> is the deformation gradient tensor: <span class="math notranslate nohighlight">\(F=I+\nabla u\)</span>. The Jacobian of <span class="math notranslate nohighlight">\(F\)</span> is defined as its determinant:  <span class="math notranslate nohighlight">\(J= \lvert F \rvert\)</span>.</p>
+<p>The <span class="math notranslate nohighlight">\(I_1 (\textbf {C})\)</span>, <span class="math notranslate nohighlight">\(I_2 (\textbf {C})\)</span> and <span class="math notranslate nohighlight">\(I_3 (\textbf {C})\)</span> are the invariants of the <span class="math notranslate nohighlight">\(\textbf {C}\)</span> tensor.</p>
+<div class="math notranslate nohighlight" id="eq-3">
+<span id="equation-eq-3"></span><span class="eqno">(3)<a class="headerlink" href="#eq-3" title="Permalink to this equation">¶</a></span>\[ \begin{align}\begin{aligned}I_1=tr(\textbf{C})\\I_2=0.5[(tr \textbf{C})^2-tr(\textbf{C}^2)]\\I_3=det (\textbf{C})\end{aligned}\end{align} \]</div>
+<p>The second Piola-Kirchhoff stress is defined as:</p>
+<div class="math notranslate nohighlight" id="eq-4">
+<span id="equation-eq-4"></span><span class="eqno">(4)<a class="headerlink" href="#eq-4" title="Permalink to this equation">¶</a></span>\[S=2 \frac{\partial W}{\partial \textbf {C}}\]</div>
+<p>After applying the chain rule, we can write the term <span class="math notranslate nohighlight">\(\frac{\partial W}{\partial \textbf {C}}\)</span> as:</p>
+<div class="math notranslate nohighlight" id="eq-5">
+<span id="equation-eq-5"></span><span class="eqno">(5)<a class="headerlink" href="#eq-5" title="Permalink to this equation">¶</a></span>\[\frac{\partial W}{\partial \textbf {C}}=\frac{\partial W}{I_1} \frac{\partial I_1}{\textbf {C}} + \frac{\partial W}{I_2} \frac{\partial I_2}{\textbf {C}}+\frac{\partial W}{I_3} \frac{\partial I_3}{\textbf {C}}\]</div>
+<p>The first term on the right hand side, we could apply the chain rul to calculate the <span class="math notranslate nohighlight">\(\frac{\partial I_1}{\partial C}\)</span>:</p>
+<div class="math notranslate nohighlight" id="eq-6">
+<span id="equation-eq-6"></span><span class="eqno">(6)<a class="headerlink" href="#eq-6" title="Permalink to this equation">¶</a></span>\[ \begin{align}\begin{aligned}\frac{\partial I_1}{\partial C}=\frac{\partial (I_1)_{11}}{C_{ij}} e_i \otimes e_j + \frac{\partial (I_1)_{22}}{C_{ij}} e_i \otimes e_j + \frac{\partial (I_1)_{33}}{C_{ij}} e_i \otimes e_j\\\frac{\partial I_1}{\partial C}=e_1 \otimes e_1 +e_2 \otimes e_2 +e_3 \otimes e_3 = \textbf{I}\end{aligned}\end{align} \]</div>
+<p>Similary we can can derive the <span class="math notranslate nohighlight">\(\frac{\partial I_2}{\partial C}\)</span> and <span class="math notranslate nohighlight">\(\frac{\partial I_3}{\partial C}\)</span>:</p>
+<div class="math notranslate nohighlight" id="eq-7">
+<span id="equation-eq-7"></span><span class="eqno">(7)<a class="headerlink" href="#eq-7" title="Permalink to this equation">¶</a></span>\[ \begin{align}\begin{aligned}\frac{\partial I_2}{\partial \textbf {C}}= I_1 \textbf {I} - \textbf {C}\\\frac{\partial I_3}{\partial \textbf {C}}= I_2 \textbf {I} - I_1 \textbf {C} + \textbf {C}^2\end{aligned}\end{align} \]</div>
+<p>By plugging back the  <a class="reference internal" href="#eq-6"><span class="std std-ref">equation.6</span></a> and <a class="reference internal" href="#eq-7"><span class="std std-ref">equation.7</span></a> into the <a class="reference internal" href="#eq-5"><span class="std std-ref">equation.5</span></a>, we can find the second piola kirchhoff stress as:</p>
+<div class="math notranslate nohighlight" id="eq-8">
+<span id="equation-eq-8"></span><span class="eqno">(8)<a class="headerlink" href="#eq-8" title="Permalink to this equation">¶</a></span>\[\textbf {S}= 2 \alpha_1 \textbf {I} + 2 \alpha_2 \textbf {C} + 2 \alpha_3 \textbf {C}^2\]</div>
+<p>In <a class="reference internal" href="#eq-8"><span class="std std-ref">Equation.8</span></a>:</p>
+<div class="math notranslate nohighlight" id="eq-9">
+<span id="equation-eq-9"></span><span class="eqno">(9)<a class="headerlink" href="#eq-9" title="Permalink to this equation">¶</a></span>\[ \begin{align}\begin{aligned}\alpha_1 =  \frac{\partial W}{\partial I_1} +  \frac{\partial W}{\partial I_2} I_1 +  \frac{\partial W}{\partial I_3} I_2\\\alpha_2 =  -\frac{\partial W}{\partial I_2} -  \frac{\partial W}{\partial I_3} I_1\\\alpha_3 =  \frac{\partial W}{\partial I_3}\end{aligned}\end{align} \]</div>
+<p>The Cauchy stress is defined as:</p>
+<div class="math notranslate nohighlight" id="eq-10">
+<span id="equation-eq-10"></span><span class="eqno">(10)<a class="headerlink" href="#eq-10" title="Permalink to this equation">¶</a></span>\[\sigma = J^{-1} F F^T \textbf {S}\]</div>
+<p>Similar to the <a class="reference internal" href="#eq-1"><span class="std std-ref">Equation.1</span></a> we can define:</p>
+<div class="math notranslate nohighlight" id="eq-11">
+<span id="equation-eq-11"></span><span class="eqno">(11)<a class="headerlink" href="#eq-11" title="Permalink to this equation">¶</a></span>\[ W=W(I_1 (\textbf {b}),I_2 (\textbf {b}),I_3 (\textbf {b}))\]</div>
+<p>Where <span class="math notranslate nohighlight">\(\textbf {b}\)</span> is the left Cauchy deformation tensor:</p>
+<div class="math notranslate nohighlight" id="eq-12">
+<span id="equation-eq-12"></span><span class="eqno">(12)<a class="headerlink" href="#eq-12" title="Permalink to this equation">¶</a></span>\[\textbf {b}=FF^T\]</div>
+<p>It should be noted that the invariants of the textbf {b} are obtained similar to the <a class="reference internal" href="#eq-3"><span class="std std-ref">equation.3</span></a>. By taking the same steps shown in the <a class="reference internal" href="#eq-6"><span class="std std-ref">equation.6</span></a> and <a class="reference internal" href="#eq-7"><span class="std std-ref">equation.7</span></a></p>
+<p>In addition, we take advantage of Cayley-Hamilton theorem:</p>
+<div class="math notranslate nohighlight" id="eq-13">
+<span id="equation-eq-13"></span><span class="eqno">(13)<a class="headerlink" href="#eq-13" title="Permalink to this equation">¶</a></span>\[\textbf{b}^3-I_1 \textbf{b}^2+I_2 \textbf{b} - I_3 \textbf{I} =0\]</div>
+<p>So the term <span class="math notranslate nohighlight">\(\frac{\partial I_3}{\partial \textbf {b}}\)</span> could be rewritten again:</p>
+<div class="math notranslate nohighlight" id="eq-14">
+<span id="equation-eq-14"></span><span class="eqno">(14)<a class="headerlink" href="#eq-14" title="Permalink to this equation">¶</a></span>\[\frac{\partial I_3}{\partial \textbf {b}}= I_3 \textbf {b}^{-1}\]</div>
+<p>We can write the <span class="math notranslate nohighlight">\(\frac{\partial W}{\partial \textbf {b}}\)</span>:</p>
+<div class="math notranslate nohighlight" id="eq-15">
+<span id="equation-eq-15"></span><span class="eqno">(15)<a class="headerlink" href="#eq-15" title="Permalink to this equation">¶</a></span>\[\frac{\partial W}{\partial \textbf {b}}= (\frac{\partial W}{\partial I_1} + \frac{\partial W}{\partial I_2} I_1) \textbf {I} - \frac{\partial W}{\partial I_2}\textbf {b} +\frac{\partial W}{\partial I_3} I_3 \textbf {b}^{-1}\]</div>
+<p>After multiplying the <span class="math notranslate nohighlight">\(\textbf {b}\)</span> tensor into the <a class="reference internal" href="#eq-15"><span class="std std-ref">equation.15</span></a> and then by substitution in <a class="reference internal" href="#eq-10"><span class="std std-ref">equation.10</span></a>, the stress could be defined in the form form:</p>
+<div class="math notranslate nohighlight" id="eq-16">
+<span id="equation-eq-16"></span><span class="eqno">(16)<a class="headerlink" href="#eq-16" title="Permalink to this equation">¶</a></span>\[ \sigma=\beta_1 \textbf {I}+\beta_2 \textbf {b}+\beta_3 \textbf {b}^2\]</div>
+<p>In the above equation:</p>
+<div class="math notranslate nohighlight" id="eq-17">
+<span id="equation-eq-17"></span><span class="eqno">(17)<a class="headerlink" href="#eq-17" title="Permalink to this equation">¶</a></span>\[ \begin{align}\begin{aligned}\beta_1 = 2J^{-1} (\frac{\partial W}{\partial I_3}I_3)\\\beta_2 = 2J^{-1} (\frac{\partial W}{\partial I_1} +  \frac{\partial W}{\partial I_2} I_1)\\\beta_3 = 2J^{-1} (-\frac{\partial W}{\partial I_2})\end{aligned}\end{align} \]</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="fully.html" class="btn btn-neutral float-right" title="2. Fully Incompressible Model" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="package.html" class="btn btn-neutral" title="Required Packages" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2021, Jafar Arash Mehr.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'2021',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

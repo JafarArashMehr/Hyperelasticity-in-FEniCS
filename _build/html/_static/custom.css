@@ -1,0 +1,10 @@
+.wy-side-nav-search, .wy-nav-side {background: plum;}
+
+.wy-side-nav-search, .wy-nav-top {background: black;}
+
+
+@import url("default.css");span.caption-text {color: black;}
+
+a:visited {color: blue;}
+
+

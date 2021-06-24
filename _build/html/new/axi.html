@@ -1,0 +1,344 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>5. Axisymmetric Model &mdash; Hyperelasticity 2021 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="Hyperelasticity 2021 documentation" href="../index.html"/>
+        <link rel="prev" title="4. Compressible Model" href="compressible.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html">
+          
+
+          
+            
+            <img src="../_static/106.png" class="logo" />
+          
+          </a>
+
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <p class="caption"><span class="caption-text">Table of Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="what.html">What is this document about?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="resource.html">Useful Resources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="package.html">Required Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="intro.html">1. Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fully.html">2. Fully Incompressible Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nearly.html">3. Nearly Incompressible Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="compressible.html">4. Compressible Model</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">5. Axisymmetric Model</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#constitutive-equation">5.1. Constitutive Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#finite-element-implementation">5.2. Finite Element Implementation</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">Hyperelasticity</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+    <li>5. Axisymmetric Model</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/new/axi.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="axisymmetric-model">
+<h1>5. Axisymmetric Model<a class="headerlink" href="#axisymmetric-model" title="Permalink to this headline">¶</a></h1>
+<p>We consider a sphere which is under an external pressure that could be taken as an axisymmetric problem.This geometry could be seen as revolution of a cross section with respect to the axis of symmetry as shown in the next figure:</p>
+<div class="section" id="constitutive-equation">
+<h2>5.1. Constitutive Equation<a class="headerlink" href="#constitutive-equation" title="Permalink to this headline">¶</a></h2>
+<p>For an axisymmetric problem, the displacement field is defined as follows:</p>
+<div class="math notranslate nohighlight" id="eq-47">
+<span id="equation-eq-47"></span><span class="eqno">(47)<a class="headerlink" href="#eq-47" title="Permalink to this equation">¶</a></span>\[ u = u_r e_r + u_z e_z\]</div>
+<p>Another informative implementation of the axisymmetric model for linear elasticity could be found <a class="reference external" href="https://comet-fenics.readthedocs.io/en/latest/demo/elasticity/axisymmetric_elasticity.html">here</a>.  The strain energy function is defined as presented in <a class="reference internal" href="nearly.html#eq-40"><span class="std std-ref">equation.40</span></a>.
+In case of axisymmetric the gradient of displacement field is defined as:</p>
+<div class="math notranslate nohighlight" id="eq-48">
+<span id="equation-eq-48"></span><span class="eqno">(48)<a class="headerlink" href="#eq-48" title="Permalink to this equation">¶</a></span>\[\begin{split} \nabla u = \begin{bmatrix} \frac {\partial u_r}{\partial r} &amp; 0 &amp; \frac {\partial u_r}{\partial z}\\0 &amp; \frac {u_r}{r} &amp; 0\\ \frac {\partial u_z}{\partial r} &amp; 0 &amp; \frac {\partial u_z}{\partial z}\end{bmatrix}\end{split}\]</div>
+<p>In general, In case of nonlinear problems, the abstract formulation for nonlinear form is defined as:</p>
+<div class="math notranslate nohighlight" id="eq-49">
+<span id="equation-eq-49"></span><span class="eqno">(49)<a class="headerlink" href="#eq-49" title="Permalink to this equation">¶</a></span>\[ F(u,v)=0 \ \forall v \in V\]</div>
+<p>In order to find the F in the above equation, first we need to define total potential energy with regard to axisymmetric formulation:</p>
+<div class="math notranslate nohighlight" id="eq-50">
+<span id="equation-eq-50"></span><span class="eqno">(50)<a class="headerlink" href="#eq-50" title="Permalink to this equation">¶</a></span>\[ \phi= \int_{V} W(u) \,dV - \int_{\partial V} P \,dA\]</div>
+<p>Where <span class="math notranslate nohighlight">\(W\)</span> is the strain energy function and <span class="math notranslate nohighlight">\(P\)</span> corresponds to the loads applied on the boundaries.
+In the above equation <span class="math notranslate nohighlight">\(dV\)</span> and <span class="math notranslate nohighlight">\(dA\)</span> are the integration symbols over the domains <span class="math notranslate nohighlight">\(V\)</span> and boundaries <span class="math notranslate nohighlight">\(\partial V\)</span>. In axisymmetric formulation, we should replace the integration measure <span class="math notranslate nohighlight">\(dV\)</span> and <span class="math notranslate nohighlight">\(dA\)</span> by <span class="math notranslate nohighlight">\(rd \theta dA\)</span> and <span class="math notranslate nohighlight">\(rd \theta ds\)</span> respectively. After substitution in the above equation, the term <span class="math notranslate nohighlight">\(d\theta\)</span> is cancelled out from both sides and the above equation yields to:</p>
+<div class="math notranslate nohighlight" id="eq-51">
+<span id="equation-eq-51"></span><span class="eqno">(51)<a class="headerlink" href="#eq-51" title="Permalink to this equation">¶</a></span>\[ \phi= \int_{A} W(u) \,rdA - \int_{\partial A} P \,rds\]</div>
+<p>In the next step by taking directional derivative from the <span class="math notranslate nohighlight">\(\phi\)</span> with respect to the test function <span class="math notranslate nohighlight">\(v\)</span> , we can find the <span class="math notranslate nohighlight">\(F(u,v)\)</span> as following:</p>
+<div class="math notranslate nohighlight" id="eq-52">
+<span id="equation-eq-52"></span><span class="eqno">(52)<a class="headerlink" href="#eq-52" title="Permalink to this equation">¶</a></span>\[ F(u,v)= \lim_{\epsilon\to\infty} \frac {d}{d \epsilon} \phi(u+ \epsilon v)\]</div>
+</div>
+<div class="section" id="finite-element-implementation">
+<h2>5.2. Finite Element Implementation<a class="headerlink" href="#finite-element-implementation" title="Permalink to this headline">¶</a></h2>
+<p>In order to generate the mesh, we considered the cross section of the sphere as a 2D axisymmetric problem. GMSH was used for mesh generation and structured mesh was created with triangular elements.The red arrows correspond to the external pressure on the sphere. The left edge (e.g. axis of symmetry) is constrained to move in the x direction while the bottom edge is constrained to move in the y direction.The parameters used for this simulation are: <span class="math notranslate nohighlight">\(\mu = 1 MPa\)</span> , <span class="math notranslate nohighlight">\(K = 1 GPa\)</span> and <span class="math notranslate nohighlight">\(P = 10 Pa\)</span> .The dimensions of the geometry, mesh, pressure load and boundary conditions are shown in next figure:</p>
+<div class="figure align-center" id="id1">
+<img alt="../_images/7.png" src="../_images/7.png" />
+<p class="caption"><span class="caption-number">Fig. 7 </span><span class="caption-text">Geometry of the cross section making the hemisphere (Left), the mesh generated in GMSH (Middle), load and boundary conditions (Right)</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
+</div>
+<p>The above equations were implemented in FEniCS. The FEniCS code is presented as here:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">dolfin</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;form_compiler&quot;</span><span class="p">][</span><span class="s2">&quot;representation&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;tsfc&quot;</span>
+
+<span class="n">mesh</span> <span class="o">=</span> <span class="n">Mesh</span><span class="p">(</span><span class="s2">&quot;MESH.xml&quot;</span><span class="p">)</span>
+
+
+<span class="n">facets</span> <span class="o">=</span> <span class="n">MeshFunction</span><span class="p">(</span><span class="s2">&quot;size_t&quot;</span><span class="p">,</span> <span class="n">mesh</span><span class="p">,</span> <span class="s2">&quot;MESH_facet_region.xml&quot;</span><span class="p">)</span>
+<span class="n">domains</span> <span class="o">=</span> <span class="n">MeshFunction</span><span class="p">(</span><span class="s2">&quot;size_t&quot;</span><span class="p">,</span> <span class="n">mesh</span><span class="p">,</span> <span class="s2">&quot;MESH_physical_region.xml&quot;</span><span class="p">)</span>
+
+<span class="n">ds</span> <span class="o">=</span> <span class="n">Measure</span><span class="p">(</span><span class="s2">&quot;ds&quot;</span><span class="p">,</span> <span class="n">subdomain_data</span><span class="o">=</span><span class="n">facets</span><span class="p">)</span>
+<span class="n">dx</span> <span class="o">=</span> <span class="n">Measure</span><span class="p">(</span><span class="s1">&#39;dx&#39;</span><span class="p">,</span><span class="n">subdomain_data</span><span class="o">=</span><span class="n">domains</span><span class="p">)</span>
+
+<span class="c1">#File(&quot;bound.pvd&quot;) &lt;&lt; facets</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">SpatialCoordinate</span><span class="p">(</span><span class="n">mesh</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">GRAD</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
+
+         <span class="k">return</span> <span class="n">as_tensor</span><span class="p">([[</span><span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">dx</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">dx</span><span class="p">(</span><span class="mi">1</span><span class="p">)],</span>
+                             <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">0</span><span class="p">],</span>
+                             <span class="p">[</span><span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">dx</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">dx</span><span class="p">(</span><span class="mi">1</span><span class="p">)]])</span>
+
+
+<span class="n">n</span> <span class="o">=</span> <span class="n">FacetNormal</span><span class="p">(</span><span class="n">mesh</span><span class="p">)</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">Constant</span><span class="p">(</span><span class="mf">100.</span><span class="p">)</span>
+
+
+<span class="n">V</span> <span class="o">=</span> <span class="n">VectorFunctionSpace</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="s1">&#39;CG&#39;</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="c1"># Define functions</span>
+<span class="n">du</span>  <span class="o">=</span> <span class="n">TrialFunction</span><span class="p">(</span><span class="n">V</span><span class="p">)</span>           <span class="c1"># Trial function</span>
+<span class="n">v</span> <span class="o">=</span> <span class="n">TestFunction</span><span class="p">(</span><span class="n">V</span><span class="p">)</span>             <span class="c1"># Test function</span>
+<span class="n">u</span>  <span class="o">=</span> <span class="n">Function</span><span class="p">(</span><span class="n">V</span><span class="p">)</span>                 <span class="c1"># Displacement field</span>
+
+
+<span class="n">d</span> <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">geometric_dimension</span><span class="p">()</span>
+<span class="n">I</span> <span class="o">=</span> <span class="n">Identity</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">F</span> <span class="o">=</span> <span class="n">I</span> <span class="o">+</span> <span class="n">GRAD</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>             <span class="c1"># Deformation gradient</span>
+
+<span class="c1">#F = FF(u)</span>
+
+<span class="n">C</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">T</span><span class="o">*</span><span class="n">F</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">F</span><span class="o">*</span><span class="n">F</span><span class="o">.</span><span class="n">T</span>
+<span class="n">Ic</span> <span class="o">=</span> <span class="n">tr</span><span class="p">(</span><span class="n">C</span><span class="p">)</span>
+<span class="n">J</span>  <span class="o">=</span> <span class="n">det</span><span class="p">(</span><span class="n">F</span><span class="p">)</span>
+<span class="n">Ib</span> <span class="o">=</span> <span class="n">tr</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+
+<span class="n">Ic_bar</span> <span class="o">=</span> <span class="nb">pow</span><span class="p">(</span><span class="n">J</span><span class="p">,</span><span class="o">-</span><span class="mf">2.</span><span class="o">/</span><span class="mf">3.</span><span class="p">)</span><span class="o">*</span><span class="n">Ic</span>
+<span class="n">C_bar</span> <span class="o">=</span> <span class="nb">pow</span><span class="p">(</span><span class="n">J</span><span class="p">,</span><span class="o">-</span><span class="mf">2.</span><span class="o">/</span><span class="mf">3.</span><span class="p">)</span><span class="o">*</span><span class="n">C</span>
+<span class="n">B_bar</span> <span class="o">=</span> <span class="nb">pow</span><span class="p">(</span><span class="n">J</span><span class="p">,</span><span class="o">-</span><span class="mf">2.</span><span class="o">/</span><span class="mf">3.</span><span class="p">)</span><span class="o">*</span><span class="n">b</span>
+
+<span class="n">mu</span> <span class="o">=</span> <span class="mf">1E6</span>
+<span class="n">K</span> <span class="o">=</span> <span class="mf">1E9</span>
+
+
+<span class="n">psi</span> <span class="o">=</span> <span class="p">(</span><span class="n">mu</span><span class="o">/</span><span class="mf">2.</span> <span class="o">*</span> <span class="p">(</span><span class="n">Ic_bar</span> <span class="o">-</span> <span class="mf">3.</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">K</span> <span class="o">*</span> <span class="nb">pow</span><span class="p">(</span><span class="n">ln</span><span class="p">(</span><span class="n">J</span><span class="p">),</span><span class="mi">2</span><span class="p">))</span> <span class="o">*</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">dx</span> <span class="o">-</span> <span class="n">inner</span><span class="p">(</span><span class="o">-</span><span class="n">p</span><span class="o">*</span><span class="n">n</span><span class="p">,</span> <span class="n">u</span><span class="p">)</span><span class="o">*</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">ds</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+
+<span class="n">bcs</span> <span class="o">=</span> <span class="p">[</span><span class="n">DirichletBC</span><span class="p">(</span><span class="n">V</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Constant</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">facets</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+            <span class="n">DirichletBC</span><span class="p">(</span><span class="n">V</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Constant</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">facets</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]</span>
+
+<span class="n">F1</span> <span class="o">=</span> <span class="n">derivative</span><span class="p">(</span><span class="n">psi</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+
+<span class="c1"># Compute Jacobian of F</span>
+<span class="n">Jac</span> <span class="o">=</span> <span class="n">derivative</span><span class="p">(</span><span class="n">F1</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">du</span><span class="p">)</span>
+
+<span class="n">problem</span> <span class="o">=</span> <span class="n">NonlinearVariationalProblem</span><span class="p">(</span><span class="n">F1</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">bcs</span><span class="p">,</span> <span class="n">Jac</span><span class="p">)</span>
+
+<span class="n">solver</span> <span class="o">=</span> <span class="n">NonlinearVariationalSolver</span><span class="p">(</span><span class="n">problem</span><span class="p">)</span>
+
+
+<span class="n">solver</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;newton_solver&quot;</span><span class="p">][</span><span class="s2">&quot;relative_tolerance&quot;</span><span class="p">]</span><span class="o">=</span><span class="mf">5e-9</span>
+
+<span class="n">solver</span><span class="o">.</span><span class="n">solve</span><span class="p">()</span>
+<span class="n">File</span><span class="p">(</span><span class="s2">&quot;Displacement.pvd&quot;</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">u</span>
+
+<span class="n">SIGMA_XX</span> <span class="o">=</span> <span class="p">(</span><span class="n">K</span> <span class="o">*</span> <span class="n">ln</span><span class="p">(</span><span class="n">J</span><span class="p">)</span> <span class="o">/</span> <span class="n">J</span><span class="p">)</span> <span class="o">*</span> <span class="n">I</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="mf">2.</span> <span class="o">/</span> <span class="n">J</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">mu</span><span class="o">/</span><span class="mf">2.</span> <span class="o">*</span> <span class="p">(</span><span class="n">B_bar</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="p">(</span><span class="mf">1.</span> <span class="o">/</span> <span class="mf">3.</span><span class="p">)</span> <span class="o">*</span> <span class="n">Ic_bar</span> <span class="o">*</span> <span class="n">I</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]))</span>
+
+<span class="n">SIGMA_YY</span> <span class="o">=</span> <span class="p">(</span><span class="n">K</span> <span class="o">*</span> <span class="n">ln</span><span class="p">(</span><span class="n">J</span><span class="p">)</span> <span class="o">/</span> <span class="n">J</span><span class="p">)</span> <span class="o">*</span> <span class="n">I</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="mf">2.</span> <span class="o">/</span> <span class="n">J</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">mu</span><span class="o">/</span><span class="mf">2.</span> <span class="o">*</span> <span class="p">(</span><span class="n">B_bar</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="p">(</span><span class="mf">1.</span> <span class="o">/</span> <span class="mf">3.</span><span class="p">)</span> <span class="o">*</span> <span class="n">Ic_bar</span> <span class="o">*</span> <span class="n">I</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]))</span>
+
+<span class="n">W</span> <span class="o">=</span> <span class="n">FunctionSpace</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="s1">&#39;P&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="n">STRESS_XX</span> <span class="o">=</span> <span class="n">project</span><span class="p">(</span><span class="n">SIGMA_XX</span><span class="p">,</span> <span class="n">W</span><span class="p">)</span>
+<span class="n">STRESS_YY</span> <span class="o">=</span> <span class="n">project</span><span class="p">(</span><span class="n">SIGMA_YY</span><span class="p">,</span> <span class="n">W</span><span class="p">)</span>
+
+<span class="n">File</span><span class="p">(</span><span class="s2">&quot;SIG_X.pvd&quot;</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">STRESS_XX</span>
+<span class="n">File</span><span class="p">(</span><span class="s2">&quot;SIG_Y.pvd&quot;</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">STRESS_YY</span>
+</pre></div>
+</div>
+<p>The same model with the same geometry, loading, boundary conditions and mesh was generated in ANSYS APDL.</p>
+<p>The PLANE 182 element was used for the simulation in ANSYS with axisymmetric element behavior. The displacement results in the x and y directions obtained from ANSYS and FEniCS implementation are shown in the next figures:</p>
+<div class="figure align-center" id="id2">
+<img alt="../_images/8.png" src="../_images/8.png" />
+<p class="caption"><span class="caption-number">Fig. 8 </span><span class="caption-text">The displacement results in X direction (FEniCS) vs ANSYS</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
+</div>
+<div class="figure align-center" id="id3">
+<img alt="../_images/9.png" src="../_images/9.png" />
+<p class="caption"><span class="caption-number">Fig. 9 </span><span class="caption-text">The displacement results in Y direction (FEniCS) vs ANSYS</span><a class="headerlink" href="#id3" title="Permalink to this image">¶</a></p>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="compressible.html" class="btn btn-neutral" title="4. Compressible Model" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2021, Jafar Arash Mehr.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'2021',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
