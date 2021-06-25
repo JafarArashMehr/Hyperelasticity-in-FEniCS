@@ -87,6 +87,7 @@
 <li class="toctree-l1"><a class="reference internal" href="what.html">What is this document about?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="resource.html">Useful Resources</a></li>
 <li class="toctree-l1"><a class="reference internal" href="package.html">Required Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cite.html">How to Cite this Document</a></li>
 <li class="toctree-l1"><a class="reference internal" href="intro.html">1. Introduction</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">2. Fully Incompressible Model</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#constitutive-equations">2.1 Constitutive Equations</a></li>
@@ -175,7 +176,7 @@
 <p>For the Biaxial tension, the deformation gradients tensor is defined as:</p>
 <div class="math notranslate nohighlight" id="eq-27">
 <span id="equation-eq-27"></span><span class="eqno">(27)<a class="headerlink" href="#eq-27" title="Permalink to this equation">¶</a></span>\[\begin{split} F=\begin{bmatrix} \lambda &amp; 0 &amp; 0\\0 &amp; \lambda &amp; 0\\0 &amp; 0 &amp; \frac {1}{\lambda^2}\end{bmatrix}\end{split}\]</div>
-<p>As <span class="math notranslate nohighlight">\(\beta_1\)</span> and <span class="math notranslate nohighlight">\(\beta_3\)</span> are equal to zero, after calculating the <span class="math notranslate nohighlight">\(\textbf{b}\)</span> tensor we can write the <a class="reference internal" href="intro.html#eq-16"><span class="std std-ref">Equation.16</span></a> in this form:</p>
+<p>As <span class="math notranslate nohighlight">\(\beta_1\)</span> and <span class="math notranslate nohighlight">\(\beta_3\)</span> are equal to zero, after calculating the <span class="math notranslate nohighlight">\(\textbf{b}\)</span> tensor we can write the <a class="reference internal" href="intro.html#eq-16"><span class="std std-ref">equation.16</span></a> in this form:</p>
 <div class="math notranslate nohighlight" id="eq-28">
 <span id="equation-eq-28"></span><span class="eqno">(28)<a class="headerlink" href="#eq-28" title="Permalink to this equation">¶</a></span>\[\begin{split} \begin{bmatrix} \sigma_{11} &amp; 0 &amp; 0\\0 &amp; \sigma_{22} &amp; 0\\0 &amp; 0 &amp; 0\end{bmatrix}= \beta_1 \begin{bmatrix} \lambda^2 &amp; 0 &amp; 0\\0 &amp; \lambda^2 &amp; 0\\0 &amp; 0 &amp; \frac{1}{\lambda^4}\end{bmatrix}\end{split}\]</div>
 <p>It results in 2 equations:</p>
@@ -213,7 +214,7 @@ tensor is unity (e.g. <span class="math notranslate nohighlight">\(J=1\)</span>)
 <span id="equation-eq-35"></span><span class="eqno">(35)<a class="headerlink" href="#eq-35" title="Permalink to this equation">¶</a></span>\[ W= c_1(I_1-3)+p(J-1)\]</div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">In the above equation, the parameter <span class="math notranslate nohighlight">\(Lagrange Multiplier\)</span> enforcing the fully incompressibility condition</p>
+<p class="last">In the above equation, the parameter <span class="math notranslate nohighlight">\(p\)</span> is <strong>Lagrange Multiplier</strong> enforcing the fully incompressibility condition</p>
 </div>
 <p>The stress is defined:</p>
 <div class="math notranslate nohighlight" id="eq-36">

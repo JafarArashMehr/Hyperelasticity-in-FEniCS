@@ -9,7 +9,7 @@ Useful Resources
 The reader is encouraged to look at these resources to get started:
 
 
-1. Fundamnetals of Hyperelasticity:
+1. Theory of Hyperelasticity:
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 1. `Material Models in Continuum Solid Mechanics <http://homepages.engineering.auckland.ac.nz/~pkel015/SolidMechanicsBooks/Part_IV/Chapter_1_Hyperelasticity/PDF/Elasticity_04_Isotropic_Hyperelasticity.pdf>`_

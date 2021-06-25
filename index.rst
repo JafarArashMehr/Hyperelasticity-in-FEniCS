@@ -14,6 +14,7 @@ Introduction to Hyperelasticity using FEniCS
    new/what
    new/resource
    new/package
+   new/cite
    new/intro
    new/fully
    new/nearly

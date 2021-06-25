@@ -97,7 +97,7 @@ For the Biaxial tension, the deformation gradients tensor is defined as:
 
 
 
-As :math:`\beta_1` and :math:`\beta_3` are equal to zero, after calculating the :math:`\textbf{b}` tensor we can write the :ref:`Equation.16 <eq.16>` in this form:
+As :math:`\beta_1` and :math:`\beta_3` are equal to zero, after calculating the :math:`\textbf{b}` tensor we can write the :ref:`equation.16 <eq.16>` in this form:
 
 
 
@@ -176,7 +176,7 @@ tensor is unity (e.g. :math:`J=1`). The strain energy function is defined as fol
    W= c_1(I_1-3)+p(J-1)
 
 
-.. note:: In the above equation, the parameter :math:`Lagrange Multiplier` enforcing the fully incompressibility condition
+.. note:: In the above equation, the parameter :math:`p` is **Lagrange Multiplier** enforcing the fully incompressibility condition
 
 The stress is defined:
 
