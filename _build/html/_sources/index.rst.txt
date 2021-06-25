@@ -20,4 +20,4 @@ Introduction to Hyperelasticity using FEniCS
    new/nearly
    new/compressible
    new/axi
-
+   new/contact
