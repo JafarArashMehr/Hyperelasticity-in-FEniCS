@@ -4,7 +4,7 @@
 3.1 Constitutive Equations
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-For the nearly incompressible Neo-Hookean material, the bulk modulus appears in the strain energy function. It should be noted that as the ratio :math:`\frac{K}{\mu}`increases, the behavior of the material becomes closer to a fully incompressible material model (e.g. :math:`J` converges to unity).
+For the nearly incompressible Neo-Hookean material, the bulk modulus appears in the strain energy function. It should be noted that as the ratio :math:`\frac{K}{\mu}` increases, the behavior of the material becomes closer to a fully incompressible material model (e.g. :math:`J` converges to unity).
 
 The strain energy function is defined as:
 
